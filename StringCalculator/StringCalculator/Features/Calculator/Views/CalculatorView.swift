@@ -11,6 +11,7 @@ struct CalculatorView: View {
     @StateObject private var vm = CalculatorVM()
     @State private var expression = ""
     @State private var expressionErrorString: String?
+    @AppStorage(Preferences.lightDarkModeAlertShown) private var lightDarkModeAlertShown = false
     
     // MARK: Main Content
     var body: some View {
@@ -28,6 +29,23 @@ struct CalculatorView: View {
                     .font(.headline)
             }
         }
+        .alert(
+            "Hey Fam!",
+            isPresented: .constant(!lightDarkModeAlertShown),
+            actions: {
+                Button("Cool!") {
+                    lightDarkModeAlertShown = true
+                }
+            },
+            message: {
+                Text(
+                    """
+                    Welcome to String Calculator!
+                    This app supports both light & dark modes 🙂
+                    """
+                )
+            }
+        )
     }
     
     private var backgroundColor: some View {
