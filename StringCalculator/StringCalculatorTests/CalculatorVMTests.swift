@@ -44,4 +44,16 @@ extension CalculatorVMTests {
         vm.calculate(expression: expression)
         XCTAssertEqual(vm.result, 6)
     }
+    
+    func testCalculateOnNewLineSeperatedInput() throws {
+        let expression = "1\n2\n3"
+        vm.calculate(expression: expression)
+        XCTAssertEqual(vm.result, 6)
+    }
+    
+    func testCalculateOnMixedSeparatorsInput() throws {
+        let expression = "1\n2,3"
+        vm.calculate(expression: expression)
+        XCTAssertEqual(vm.result, 6)
+    }
 }

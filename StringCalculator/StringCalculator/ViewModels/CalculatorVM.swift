@@ -5,6 +5,7 @@
 //  Created by Akash Sen on 01/07/25.
 //
 
+import Foundation
 import Combine
 
 final class CalculatorVM: ObservableObject {
@@ -19,7 +20,8 @@ final class CalculatorVM: ObservableObject {
 extension CalculatorVM {
     
     private func getIntegers(from expression: String) -> [Int] {
-        expression.split(separator: ",").compactMap { Int($0) }
+        let separators = CharacterSet(charactersIn: ",\n")
+        return expression.components(separatedBy: separators).compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
     }
     
 }
