@@ -23,43 +23,55 @@ final class CalculatorVMTests: XCTestCase {
 
 extension CalculatorVMTests {
     
-    func testInitialResultValue() {
+    func testInitialResultValue() throws {
         XCTAssertNil(vm.result)
     }
     
-    func testCalculateOnEmptyInput() {
+    func testCalculateOnEmptyInput() throws {
         let expression = ""
-        vm.add(expression)
+        try vm.add(expression)
         XCTAssertEqual(vm.result, 0)
     }
     
-    func testCalculateOnSingleInput() {
+    func testCalculateOnSingleInput() throws {
         let expression = "1"
-        vm.add(expression)
+        try vm.add(expression)
         XCTAssertEqual(vm.result, 1)
     }
     
     func testCalculateOnCommaSeperatedInput() throws {
         let expression = "1,2,3"
-        vm.add(expression)
+        try vm.add(expression)
         XCTAssertEqual(vm.result, 6)
     }
     
     func testCalculateOnNewLineSeperatedInput() throws {
         let expression = "1\n2\n3"
-        vm.add(expression)
+        try vm.add(expression)
         XCTAssertEqual(vm.result, 6)
     }
     
     func testCalculateOnMixedSeparatorsInput() throws {
         let expression = "1\n2,3"
-        vm.add(expression)
+        try vm.add(expression)
         XCTAssertEqual(vm.result, 6)
     }
     
     func testCalculateOnCustomDelimiterInput() throws {
         let expression = "//;\n1;2;3"
-        vm.add(expression)
+        try vm.add(expression)
         XCTAssertEqual(vm.result, 6)
+    }
+    
+    func testCalculateOnNegativeNumberInput() throws {
+        let expression = "-1,2,3"
+        XCTAssertThrowsError(try vm.add(expression))
+        XCTAssertNil(vm.result)
+    }
+    
+    func testCalculateOnNegativeNumberCustomDelimiterInput() throws {
+        let expression = "//;\n-1;2;3"
+        XCTAssertThrowsError(try vm.add(expression))
+        XCTAssertNil(vm.result)
     }
 }

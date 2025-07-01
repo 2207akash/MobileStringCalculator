@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CalculatorView: View {
     @StateObject private var vm = CalculatorVM()
-    @State private var expression: String = ""
+    @State private var expression = ""
+    @State private var expressionErrorString: String?
     
     var body: some View {
         VStack {
@@ -25,11 +26,23 @@ struct CalculatorView: View {
                 text: $expression
             )
             .font(.body)
+            .keyboardType(.asciiCapable)
             .textFieldStyle(RoundedBorderTextFieldStyle())
+            .overlay {
+                if expressionErrorString != nil {
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder(Color.red)
+                }
+            }
             .padding()
             
             Button("Calculate") {
-                vm.add(expression)
+                do {
+                    expressionErrorString = nil
+                    try vm.add(expression)
+                } catch (let error) {
+                    expressionErrorString = error.localizedDescription
+                }
             }
         }
     }
@@ -38,9 +51,13 @@ struct CalculatorView: View {
         VStack {
             if let result = vm.result {
                 Text("Result: \(result)")
-                    .padding(.top)
+            }
+            if let expressionErrorString = expressionErrorString {
+                Text(expressionErrorString)
+                    .foregroundColor(.red)
             }
         }
+        .padding(.top)
     }
 }
 
