@@ -27,7 +27,19 @@ extension CalculatorVMTests {
         XCTAssertNil(vm.result)
     }
     
-    func testCalculateOnValidInput() throws {
+    func testCalculateOnEmptyInput() {
+        let expression = ""
+        vm.calculate(expression: expression)
+        XCTAssertEqual(vm.result, 0)
+    }
+    
+    func testCalculateOnSingleInput() {
+        let expression = "1"
+        vm.calculate(expression: expression)
+        XCTAssertEqual(vm.result, 1)
+    }
+    
+    func testCalculateOnCommaSeperatedInput() throws {
         let expression = "1,2,3"
         vm.calculate(expression: expression)
         XCTAssertEqual(vm.result, 6)
