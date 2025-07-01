@@ -29,31 +29,37 @@ extension CalculatorVMTests {
     
     func testCalculateOnEmptyInput() {
         let expression = ""
-        vm.calculate(expression: expression)
+        vm.add(expression)
         XCTAssertEqual(vm.result, 0)
     }
     
     func testCalculateOnSingleInput() {
         let expression = "1"
-        vm.calculate(expression: expression)
+        vm.add(expression)
         XCTAssertEqual(vm.result, 1)
     }
     
     func testCalculateOnCommaSeperatedInput() throws {
         let expression = "1,2,3"
-        vm.calculate(expression: expression)
+        vm.add(expression)
         XCTAssertEqual(vm.result, 6)
     }
     
     func testCalculateOnNewLineSeperatedInput() throws {
         let expression = "1\n2\n3"
-        vm.calculate(expression: expression)
+        vm.add(expression)
         XCTAssertEqual(vm.result, 6)
     }
     
     func testCalculateOnMixedSeparatorsInput() throws {
         let expression = "1\n2,3"
-        vm.calculate(expression: expression)
+        vm.add(expression)
+        XCTAssertEqual(vm.result, 6)
+    }
+    
+    func testCalculateOnCustomDelimiterInput() throws {
+        let expression = "//;\n1;2;3"
+        vm.add(expression)
         XCTAssertEqual(vm.result, 6)
     }
 }

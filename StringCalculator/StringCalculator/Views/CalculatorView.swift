@@ -29,7 +29,7 @@ struct CalculatorView: View {
             .padding()
             
             Button("Calculate") {
-                vm.calculate(expression: expression)
+                vm.add(expression)
             }
         }
     }
