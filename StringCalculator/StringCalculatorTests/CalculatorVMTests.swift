@@ -23,9 +23,13 @@ final class CalculatorVMTests: XCTestCase {
 
 extension CalculatorVMTests {
     
-    func testCalculate() throws {
+    func testInitialResultValue() {
+        XCTAssertNil(vm.result)
+    }
+    
+    func testCalculateOnValidInput() throws {
         let expression = "1,2,3"
         vm.calculate(expression: expression)
-        XCTAssertEqual(vm.result, 0)
+        XCTAssertEqual(vm.result, 6)
     }
 }
