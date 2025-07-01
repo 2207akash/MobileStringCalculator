@@ -14,21 +14,25 @@ struct CalculatorView: View {
     
     // MARK: Main Content
     var body: some View {
-        NavigationStack {
-            VStack {
-                VStack(alignment: .center) {
-                    inputView
-                    outputView
-                }
+        ZStack {
+            backgroundColor
+            VStack(alignment: .center) {
+                inputView
+                outputView
             }
-            .navigationTitle("String Calculator")
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("String Calculator")
+                    .foregroundColor(.primaryText)
+                    .font(.headline)
+            }
         }
     }
     
-    private var headerView: some View {
-        Text("String Calculator")
-            .font(.largeTitle)
-            .foregroundStyle(Color.black)
+    private var backgroundColor: some View {
+        Color.appBackground
+            .ignoresSafeArea()
     }
     
     private var inputView: some View {
@@ -42,10 +46,11 @@ struct CalculatorView: View {
         VStack {
             if let result = vm.result {
                 Text("Result: \(result)")
+                    .foregroundStyle(.primaryText)
             }
             if let expressionErrorString = expressionErrorString {
                 Text(expressionErrorString)
-                    .foregroundColor(.red)
+                    .foregroundColor(.errorText)
             }
         }
         .padding(.top)
@@ -61,6 +66,7 @@ private extension CalculatorView {
             text: $expression
         )
         .font(.body)
+        .foregroundStyle(.primaryText)
         .keyboardType(.asciiCapable)
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .overlay {
@@ -81,6 +87,12 @@ private extension CalculatorView {
                 expressionErrorString = error.localizedDescription
             }
         }
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.capsule)
+        .font(.headline)
+        .foregroundStyle(.buttonText)
+        .tint(.buttonBackground)
+        .padding()
     }
 }
 
